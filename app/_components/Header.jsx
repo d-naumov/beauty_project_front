@@ -23,13 +23,13 @@ function Header() {
   ];
   return (
     <div className='flex items-center
-     justify-between p-4 shadow-sm'>
+     justify-between p-2 shadow-sm'>
         <div className='flex items-center gap-10'>
-        <Image src="/logo.svg" alt="logo" width={180} height={180} />
+        <Image src="/logo3.png" alt="logo" width={100} height={100} />
       <ul className='md:flex gap-8 hidden'>
         {Menu.map((item,index)=>(
             <Link href={item.path}>
-            <li className='hover:text-primary
+            <li className='hover:text-green-700
             cursor-pointer hover:scale-105
             transition-all ease-in-out'>{item.name}</li>
             </Link>
