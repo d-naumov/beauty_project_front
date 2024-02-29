@@ -4,6 +4,7 @@ import Link from "next/link";
 import React from "react";
 
 function Header() {
+    
   const Menu = [
     {
       id: 1,
@@ -22,10 +23,12 @@ function Header() {
     },
   ];
   return (
-    <div className='flex items-center
-     justify-between p-2 shadow-sm'>
-        <div className='flex items-center gap-10'>
-        <Image src="/logo3.png" alt="logo" width={100} height={100} />
+    <div className='flex items-center justify-between ml-4 mr-4 mt-1'>
+        
+        <div className='flex items-center gap-20 right-4'>
+    
+         <Image src="/logo3.png" alt="logo" width={100} height={100}  />
+
       <ul className='md:flex gap-8 hidden'>
         {Menu.map((item,index)=>(
             <Link href={item.path}>
