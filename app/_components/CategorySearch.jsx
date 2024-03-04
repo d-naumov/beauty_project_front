@@ -1,11 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
-import React from "react";
+import Image from "next/image";
 
 function CategorySearch() {
   return (
-    <div className="mb-10 items-center flex flex-col gap-4">
+    <div className="mb-10 items-center flex flex-col gap-4 px-5">
       <h2 className="font-bold text-4xl tracking-wide">
         Finde einen <span className="text-green-800">Meister</span>{" "}
       </h2>
@@ -16,12 +16,46 @@ function CategorySearch() {
       <div className="flex w-full mt-3 max-w-sm items-center space-x-2">
         <Input type="search" placeholder="Was möchtest du finden?" />
         <Button type="submit">
-            <Search className='h-4 w-4 mr-2' />
-            Finden</Button>
+          <Search className="h-4 w-4 mr-2" />
+          Finden
+        </Button>
       </div>
 
-    </div>
+   
+        <div className=" grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 ">
+
+            <div className="p-5 hover:scale-110 transition-all ease-in-out cursor-pointer">
+            <Image src="/menu-1.png" alt="logo" width={100} height={100} />
+          <p className="m-1">Haarschnitt</p>
+            </div>
+
+            <div className=" p-5 hover:scale-110 transition-all ease-in-out cursor-pointer">
+            <Image src="/menu-1.png" alt="logo" width={100} height={100} />
+          <p className="m-1">Haarschnitt</p>
+            </div>
+            <div className="p-5 hover:scale-110 transition-all ease-in-out cursor-pointer">
+            <Image src="/menu-1.png" alt="logo" width={100} height={100} />
+          <p className="m-1">Haarschnitt</p>
+            </div>
+            <div className="p-5 hover:scale-110 transition-all ease-in-out cursor-pointer">
+            <Image src="/menu-1.png" alt="logo" width={100} height={100} />
+          <p className="m-1">Haarschnitt</p>
+            </div>
+            <div className="p-5 hover:scale-110 transition-all ease-in-out cursor-pointer">
+            <Image src="/menu-1.png" alt="logo" width={100} height={100} />
+          <p className="m-1">Haarschnitt</p>
+            </div>
+            <div className="p-5 hover:scale-110 transition-all ease-in-out cursor-pointer">
+            <Image src="/menu-1.png" alt="logo" width={100} height={100} />
+          <p className="m-1">Haarschnitt</p>
+            </div>
+
+        </div>
+      </div>
+      
+   
   );
 }
 
 export default CategorySearch;
+

@@ -7,12 +7,12 @@ function Hero() {
     <section style={{ position: "relative", minHeight: "110vh" }}>
       <div className="mx-auto max-w-screen-xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8 lg:py-20">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 lg:grid-cols-2 lg:gap-16 ">
-          <div className="relative h-60 lg:h-100 overflow-hidden rounded-md sm:h-80 lg:order-last lg:h-full">
-            <div className="rounded-md overflow-hidden flex justify-center sm:justify-start">
+          <div className=" relative h-60 lg:h-100 overflow-hidden lg:order-last lg:h-full">
+            <div>
               <img
                 alt="main-image"
                 src="/relaxing.jpg"
-                className="w-ful lg:w-3/4 h-auto ml-2 mr-2"
+                className="h-[500px] w-[400px] object-cover rounded-lg shadow-image "
               />
             </div>
           </div>
@@ -46,3 +46,4 @@ function Hero() {
 }
 
 export default Hero;
+
