@@ -10,7 +10,7 @@ function BackgroundAnimation() {
         style={{
           position: "absolute",
           width: "100%",
-          height: "280%",
+          height: "240%",
           zIndex: "-1",
         }}
       >
@@ -29,7 +29,7 @@ function BackgroundAnimation() {
               values="0%;3%;0%"
               repeatCount="indefinite"
             />
-            <stop offset="0%" stopColor="#AEC670" />
+            <stop offset="4%" stopColor="#AEC670" />
             <stop offset="100%" stopColor="#ff00" />
           </radialGradient>
           <radialGradient
@@ -63,7 +63,7 @@ function BackgroundAnimation() {
               values="0%;3%;0%"
               repeatCount="indefinite"
             />
-            <stop offset="0%" stopColor="#1A2902" />
+            <stop offset="6%" stopColor="#1A2902" />
             <stop offset="100%" stopColor="#ff00" />
           </radialGradient>
         </defs>
