@@ -1,9 +1,24 @@
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 import Image from "next/image";
+import GlobalApi from '@/app/_utils/GlobalApi';
+
 
 function CategorySearch() {
+
+  // const [categoryList, setCategoryList] = useState([]);
+  // useEffect(() => {
+  //   getCategoryList();
+  // }, []);
+
+  // const getCategoryList = () => {
+  //   GlobalApi.getCategory().then((resp) => {
+  //     console.log(rest.data.data);
+  //     setCategoryList(resp.data.data);
+  //   });
+  // };
+
   return (
     <div className="mb-10 items-center flex flex-col gap-4 px-5">
       <h2 className="font-bold text-4xl tracking-wide">
