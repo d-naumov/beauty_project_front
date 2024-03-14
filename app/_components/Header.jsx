@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import React from "react";
 import Link from "next/link";
+import { LoginButton } from "../../components/auth/login-button";
 
 function Header() {
   const Menu = [
@@ -42,7 +43,10 @@ function Header() {
           ))}
         </ul>
       </div>
-      <Link href="/auth"><Button>Get Started</Button></Link>
+    <LoginButton>
+    <Button>Get Started</Button>
+    </LoginButton>
+      
       
     </div>
   );

@@ -37,7 +37,7 @@ function CategorySearch() {
       </div>
 
    
-        <div className=" grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 ">
+        <div className=" grid grid-cols-3 md:grid-cols-4 lg:grid-cols-7 ">
 
             <div className="p-5 hover:scale-110 transition-all ease-in-out cursor-pointer">
             <Image src="/menu-1.png" alt="logo" width={100} height={100} />
@@ -46,23 +46,27 @@ function CategorySearch() {
 
             <div className=" p-5 hover:scale-110 transition-all ease-in-out cursor-pointer">
             <Image src="/menu-1.png" alt="logo" width={100} height={100} />
-          <p className="m-1">Haarschnitt</p>
+          <p className="m-1 pl-3">Maniküre</p>
             </div>
             <div className="p-5 hover:scale-110 transition-all ease-in-out cursor-pointer">
             <Image src="/menu-1.png" alt="logo" width={100} height={100} />
-          <p className="m-1">Haarschnitt</p>
+          <p className="m-1 pl-2">Kosmetiker</p>
             </div>
             <div className="p-5 hover:scale-110 transition-all ease-in-out cursor-pointer">
             <Image src="/menu-1.png" alt="logo" width={100} height={100} />
-          <p className="m-1">Haarschnitt</p>
+          <p className="m-1 pl-3">Wimpern</p>
+            </div>
+            <div className=" p-5 hover:scale-110 transition-all ease-in-out cursor-pointer">
+            <Image src="/menu-1.png" alt="logo" width={100} height={100} />
+          <p className="m-1 pl-3">Epilation</p>
             </div>
             <div className="p-5 hover:scale-110 transition-all ease-in-out cursor-pointer">
             <Image src="/menu-1.png" alt="logo" width={100} height={100} />
-          <p className="m-1">Haarschnitt</p>
+          <p className="m-1 pl-1">Tätowierung</p>
             </div>
             <div className="p-5 hover:scale-110 transition-all ease-in-out cursor-pointer">
             <Image src="/menu-1.png" alt="logo" width={100} height={100} />
-          <p className="m-1">Haarschnitt</p>
+          <p className="m-1 pl-3">Piercing</p>
             </div>
 
         </div>
