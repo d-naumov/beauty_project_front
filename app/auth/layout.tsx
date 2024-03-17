@@ -2,7 +2,7 @@ const AuthLayout = ({children}: { children: React.ReactNode }) => {
 
     return (
       
-      <div className="m-10">
+      <div className="max-w-custom">
         {children}
       </div>
     )

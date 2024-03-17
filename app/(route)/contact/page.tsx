@@ -2,8 +2,8 @@
 
 const Contact = () => {
     return (
-<div className="rounded-lg text-center">
-  <div className="px-6 py-5">
+<div className=" text-center mx-auto">
+  <div className="px-6 py-6">
     <p className="font-medium">Not found your answer?</p>
 
     <div className="mt-4 space-y-2 ">
