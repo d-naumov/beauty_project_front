@@ -13,35 +13,36 @@ import {
   FormLabel,
   FormMessage,
 } from "../ui/form";
-import { LoginSchema } from "../../schemas";
+import { RegisterSchema } from "../../schemas";
 import { CardWrapper } from "./card-wrapper";
 import { Button } from "../ui/button";
 import { FormError } from "../form-error.tsx/form-error";
 import { FormSuccess } from "../form-error.tsx/form-success";
-import { login } from "../../actions/login";
+import { register } from "../../actions/register";
 import { useState, useTransition } from "react";
 
-export const LoginForm = () => {
+export const RegisterForm = () => {
 const [error, setError] = useState<string | undefined>("");
 const [success, setSuccess] = useState<string | undefined>("");
 
 
   const [isPending, startTransition] = useTransition();
 
-  const form = useForm<z.infer<typeof LoginSchema>>({
-    resolver: zodResolver(LoginSchema),
+  const form = useForm<z.infer<typeof RegisterSchema>>({
+    resolver: zodResolver(RegisterSchema),
     defaultValues: {
       email: "",
       password: "",
+      name: "",
     },
   });
 
-  const onSubmit = (values: z.infer<typeof LoginSchema>) =>  {
+  const onSubmit = (values: z.infer<typeof RegisterSchema>) =>  {
     setError("");
     setSuccess("");
 
     startTransition(() => {
-      login(values)
+      register(values)
       .then ((data) => {
         setError(data.error);
         setSuccess(data.success)
@@ -52,14 +53,37 @@ const [success, setSuccess] = useState<string | undefined>("");
 
   return (
     <CardWrapper
-      headerLabel="Willkommen"
-      backButtonLabel="Noch kein Konto??"
-      backButtonHref="/auth/register"
+      headerLabel="Regestration"
+      backButtonLabel="Bereits registriert?"
+      backButtonHref="/auth/login"
       showSocial
     >
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+        <form 
+        onSubmit={form.handleSubmit(onSubmit)} 
+        className="space-y-6">
+
           <div className="space-y-4 m-3">
+
+          <FormField
+              control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Name</FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      disabled={isPending}
+                      placeholder="Till Lindemann"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+
             <FormField
               control={form.control}
               name="email"
@@ -99,7 +123,7 @@ const [success, setSuccess] = useState<string | undefined>("");
           disabled={isPending} 
           type="submit" 
           className="w-full">
-            Login
+            Registrieren
           </Button>
         </form>
       </Form>
