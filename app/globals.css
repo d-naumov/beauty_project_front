@@ -8,17 +8,10 @@
       margin-left: auto; /* Центрирование блока по горизонтали */
       margin-right: auto;
     }
+    .bg-blur-sm {
+      background-color: rgba(255, 255, 255, 0.5); /* Прозрачный белый цвет с 50% непрозрачности */
+    }
 
   }
-  .bg-destructive1 {
-    margin-top: 2px;
-    margin-bottom: 22px;
-    background-color: rgb(231, 75, 75, 0.9); /* Красный цвет с прозрачностью 0.9 */
-  }
-  .bg-destructive2 {
-  
-    margin-top: 2px;
-    margin-bottom: 22px;
-    background-color: rgba(139, 231, 111, 0.9); /* Красный цвет с прозрачностью 0.9 */
-  }
+ 
   

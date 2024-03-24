@@ -1,8 +1,8 @@
-import { Button } from "@/components/ui/button";
+import { Button } from "../components/ui/button";
 import Image from "next/image";
 import React from "react";
 import Link from "next/link";
-import { LoginButton } from "../../components/auth/login-button";
+
 
 function Header() {
   const Menu = [
@@ -43,9 +43,9 @@ function Header() {
           ))}
         </ul>
       </div>
-    <LoginButton>
+   
     <Button>Get Started</Button>
-    </LoginButton>
+    
       
       
     </div>

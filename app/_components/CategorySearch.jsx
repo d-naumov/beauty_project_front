@@ -1,8 +1,8 @@
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input";
+import { Button } from "../components/ui/button"
+import { Input } from "../components/ui/input";
 import { Search } from "lucide-react";
 import Image from "next/image";
-import GlobalApi from '@/app/_utils/GlobalApi';
+import GlobalApi from '../_utils/GlobalApi';
 
 
 function CategorySearch() {

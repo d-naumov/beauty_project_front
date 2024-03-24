@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import GlobalApi from "@/app/_utils/GlobalApi";
+import GlobalApi from "../../../_utils/GlobalApi";
 import {
   Command,
   CommandDialog,
@@ -12,7 +12,7 @@ import {
   CommandList,
   CommandSeparator,
   CommandShortcut,
-} from "@/components/ui/command";
+} from "../../../components/ui/command";
 
 function CategoryList() {
   const [categoryList, setCategoryList] = useState([]);
