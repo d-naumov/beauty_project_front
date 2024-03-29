@@ -3,8 +3,9 @@ import Image from "next/image";
 import React from "react";
 import Link from "next/link";
 
-
 function Header() {
+
+
   const Menu = [
     {
       id: 1,
@@ -43,11 +44,11 @@ function Header() {
           ))}
         </ul>
       </div>
-   
-    <Button>Get Started</Button>
-    
+
       
-      
+      <Link href={"/sign-in"}>
+        <Button>Get Started</Button>
+      </Link>
     </div>
   );
 }

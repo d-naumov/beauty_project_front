@@ -1,28 +1,33 @@
-import axios from "axios";
-
-// const { default: axios } = require("axios")
+// import axios from "axios";
 
 
 
-// const axiosClient=axios.create({
-//     baseURL:"https://localhost:8080/api/user/register"
-// })
+// const axiosClient = axios.create({
+//   baseURL: "http://localhost:8080",
+// });
 
-// const getCategory=()=>axiosClient.get('message?populate=*');
-// export default{
-//     getCategory
+// const getCategory = () => axiosClient.get("/api/categories");
+
+// export default {
+//   getCategory,
+// };
+
+// const registerUser = (name, lastName, email, password) =>
+//   axiosClient.post("https://localhost:8080/register", {
+//     name: name,
+//     lastName: lastName,
+//     email: email,
+//     password: password,
+//   });
+
+// const registerUser = (name,lastName,email,password) =>axiosClient.post('/api/users/register',{
+//   name:name,
+//   lastName:lastName,
+//   email:email,
+//   password:password
+// });
+
+// export default {
+//   registerUser
 // }
 
-
-
-const registerUser = (name, lastName, email, password) =>
-  AxiosClient.post("https://localhost:8080/register", {
-    name: name,
-    lastName: lastName,
-    email: email,
-    password: password,
-  });
-
-export default {
-  registerUser,
-};

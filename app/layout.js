@@ -3,6 +3,8 @@ import "./globals.css";
 import Header from "./_components/Header";
 import BackgroundAnimation from "./_components/BackgroundAnimation";
 import Footer from "./_components/Footer";
+import { Toaster } from ".//components/ui/sonner"
+
 
 const outfit = Outfit({ subsets: ["latin"] });
 
@@ -19,6 +21,7 @@ export default function RootLayout({ children }) {
         <div>
           <Header />
           {children}
+         <Toaster/>
           <Footer/>
         </div>
       </body>

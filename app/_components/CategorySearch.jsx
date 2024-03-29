@@ -1,23 +1,33 @@
-import { Button } from "../components/ui/button"
+"use client";
+
+import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
 import { Search } from "lucide-react";
 import Image from "next/image";
-import GlobalApi from '../_utils/GlobalApi';
-
+import { useEffect, useState } from "react";
 
 function CategorySearch() {
 
-  // const [categoryList, setCategoryList] = useState([]);
-  // useEffect(() => {
-  //   getCategoryList();
-  // }, []);
 
-  // const getCategoryList = () => {
-  //   GlobalApi.getCategory().then((resp) => {
-  //     console.log(rest.data.data);
-  //     setCategoryList(resp.data.data);
-  //   });
-  // };
+  const [categoryList, setCategoryList] = useState([]);
+  
+  useEffect(() => {
+    getCategoryList();
+  }, []);
+
+
+  const getCategoryList = async () => {
+    try {
+      const res = await fetch("/api/categories", {
+        headers: { accept: "*/*" },
+      });
+      const arr = await res.json();
+      console.log(arr);
+      setCategoryList(arr);
+    } catch (error) {
+      console.error("Error fetching categories:", error);
+    }
+  };
 
   return (
     <div className="mb-10 items-center flex flex-col gap-4 px-5">
@@ -36,43 +46,20 @@ function CategorySearch() {
         </Button>
       </div>
 
-   
-        <div className=" grid grid-cols-3 md:grid-cols-4 lg:grid-cols-7 ">
-
-            <div className="p-5 hover:scale-110 transition-all ease-in-out cursor-pointer">
+      <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 ">
+        {categoryList.map((item) => (
+          <div
+            key={item.id}
+            className="flex flex-col text-center items-center p-5 hover:scale-110 transition-all ease-in-out cursor-pointer 
+          "
+          >
             <Image src="/menu-1.png" alt="logo" width={100} height={100} />
-          <p className="m-1">Haarschnitt</p>
-            </div>
-
-            <div className=" p-5 hover:scale-110 transition-all ease-in-out cursor-pointer">
-            <Image src="/menu-1.png" alt="logo" width={100} height={100} />
-          <p className="m-1 pl-3">Maniküre</p>
-            </div>
-            <div className="p-5 hover:scale-110 transition-all ease-in-out cursor-pointer">
-            <Image src="/menu-1.png" alt="logo" width={100} height={100} />
-          <p className="m-1 pl-2">Kosmetiker</p>
-            </div>
-            <div className="p-5 hover:scale-110 transition-all ease-in-out cursor-pointer">
-            <Image src="/menu-1.png" alt="logo" width={100} height={100} />
-          <p className="m-1 pl-3">Wimpern</p>
-            </div>
-            <div className=" p-5 hover:scale-110 transition-all ease-in-out cursor-pointer">
-            <Image src="/menu-1.png" alt="logo" width={100} height={100} />
-          <p className="m-1 pl-3">Epilation</p>
-            </div>
-            <div className="p-5 hover:scale-110 transition-all ease-in-out cursor-pointer">
-            <Image src="/menu-1.png" alt="logo" width={100} height={100} />
-          <p className="m-1 pl-1">Tätowierung</p>
-            </div>
-            <div className="p-5 hover:scale-110 transition-all ease-in-out cursor-pointer">
-            <Image src="/menu-1.png" alt="logo" width={100} height={100} />
-          <p className="m-1 pl-3">Piercing</p>
-            </div>
-
-        </div>
+            <label>{item.name}</label>
+          </div>
+        ))}
       </div>
-      
-   
+
+    </div>
   );
 }
 

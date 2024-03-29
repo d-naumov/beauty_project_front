@@ -5,4 +5,16 @@
 //     config.resolve.alias['@'] = path.resolve(__dirname);
 //     return config;
 //   }
-// };
+// }; r
+
+module.exports = {
+    async rewrites() {
+        return [
+            {
+                source:'/api/:path*',
+                destination:'http://localhost:8080/api/:path*'
+            }
+        ]
+    } 
+}
+
