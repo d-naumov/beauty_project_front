@@ -9,20 +9,18 @@ import { toast } from 'sonner';
 
 
 function SignIn() {
- 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const router= useRouter();
-
+  const router = useRouter();
 
   const onLoginAccount = async () => {
     try {
       const userData = {
         email,
-        password,
+        hashPassword: password,
       };
 
-      const res = await fetch("/api/users/login", {
+      const res = await fetch("/api/auth/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -31,6 +29,10 @@ function SignIn() {
         body: JSON.stringify(userData),
       });
 
+      if (!res.ok) {
+        throw new Error("Failed to login");
+      }
+
       const data = await res.json();
       console.log(data);
       sessionStorage.setItem('user', JSON.stringify(data))
@@ -38,7 +40,7 @@ function SignIn() {
       router.push('/')
     } catch (error) {
       console.error("Error login account:", error);
-      toast("Server Error")
+      toast("falscher Login oder Passwort")
     }
   };
 
@@ -53,7 +55,7 @@ function SignIn() {
         <div className="w-full flex flex-col gap-5 mt-7">
           <Input placeholder="name@example.com" value={email} onChange={(e) => setEmail(e.target.value)} />
           <Input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
-          <Button onClick={onLoginAccount} disabled={ !email || !password}>
+          <Button onClick={onLoginAccount} disabled={!email || !password}>
             Login
           </Button>
           <p>

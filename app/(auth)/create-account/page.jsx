@@ -10,22 +10,21 @@ import { toast } from 'sonner';
 
 
 function CreateAccount() {
-  const [name, setName] = useState(''); 
+  const [firstName, setFirstName] = useState(''); 
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [userType, setUserType] = useState('CLIENT'); 
-  const router= useRouter();
+  const [hashPassword, setHashPassword] = useState('');
+  const [role, setRole] = useState('CLIENT'); 
+  const router = useRouter();
 
   const onCreateAccount = async () => {
-    
     try {
       const userData = {
-        name,
+        firstName,
         lastName,
         email,
-        password,
-        userType
+        role,
+        hashPassword // Вместо password используем hashPassword
       };
 
       const res = await fetch("/api/users/register", {
@@ -36,6 +35,10 @@ function CreateAccount() {
         },
         body: JSON.stringify(userData),
       });
+
+      if (!res.ok) {
+        throw new Error("Failed to create account");
+      }
 
       const data = await res.json();
       console.log(data);
@@ -57,19 +60,18 @@ function CreateAccount() {
         </h2>
 
         <div className="w-full flex flex-col gap-5 mt-7">
-          <Input placeholder="Name" value={name} onChange={(e) => setName(e.target.value)} />
-          <Input placeholder="Last name" value={lastName} onChange={(e) => setLastName(e.target.value)} />
+          <Input placeholder="First Name" value={firstName} onChange={(e) => setFirstName(e.target.value)} />
+          <Input placeholder="Last Name" value={lastName} onChange={(e) => setLastName(e.target.value)} />
           <Input placeholder="name@example.com" value={email} onChange={(e) => setEmail(e.target.value)} />
-          <Input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
-             
-
+          <Input type="password" placeholder="Password" value={hashPassword} onChange={(e) => setHashPassword(e.target.value)} />
+          
           <div className=' flex flex-col gap-4 px-5'>
             <label>
               <input
                 type="radio"
                 value="CLIENT"
-                checked={userType === 'CLIENT'}
-                onChange={() => setUserType('CLIENT')}
+                checked={role === 'CLIENT'}
+                onChange={() => setRole('CLIENT')}
               />
               Client
             </label>
@@ -77,15 +79,14 @@ function CreateAccount() {
               <input
                 type="radio"
                 value="MASTER"
-                checked={userType === 'MASTER'}
-                onChange={() => setUserType('MASTER')}
+                checked={role === 'MASTER'}
+                onChange={() => setRole('MASTER')}
               />
               Master
             </label>
           </div>
 
-
-          <Button onClick={onCreateAccount} disabled={!name || !lastName || !email || !password}>
+          <Button onClick={onCreateAccount} disabled={!firstName || !lastName || !email || !hashPassword}>
             Eine Konto erstellen
           </Button>
           <p>
