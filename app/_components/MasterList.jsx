@@ -37,7 +37,7 @@ function MasterList() {
             cursor-pointer hover:bg-green-700 hover:text-white
             "
             >
-              Buchen Jetzt
+              Daten
             </h2>
             </Link>
           </div>
@@ -69,7 +69,7 @@ function MasterList() {
             cursor-pointer hover:bg-green-700 hover:text-white
             "
             >
-              Buchen Jetzt
+             Daten
             </h2>
             </Link>
           </div>
@@ -101,7 +101,7 @@ function MasterList() {
             cursor-pointer hover:bg-green-700 hover:text-white
             "
             >
-              Buchen Jetzt
+              Daten
             </h2>
             </Link>
           </div>
@@ -133,7 +133,7 @@ function MasterList() {
             cursor-pointer hover:bg-green-700 hover:text-white
             "
             >
-              Buchen Jetzt
+            Daten
             </h2>
             </Link>
           </div>
