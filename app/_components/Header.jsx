@@ -1,10 +1,32 @@
+"use client"
+
+import { useState, useEffect } from "react";
 import { Button } from "../components/ui/button";
 import Image from "next/image";
-import React from "react";
 import Link from "next/link";
+import { CircleUserRound } from "lucide-react";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "../components/ui/popover"
+import { useRouter } from 'next/navigation';
+
 
 function Header() {
+  const [isLogin, setIsLogin] = useState(false);
+  const router = useRouter(); 
 
+  useEffect(() => {
+    const userData = sessionStorage.getItem("user");
+    setIsLogin(userData ? true : false);
+  }, []); 
+
+  const onSignOut = () => {
+    sessionStorage.clear();
+    setIsLogin(false); 
+    router.push('/sign-in');
+  }
 
   const Menu = [
     {
@@ -23,8 +45,9 @@ function Header() {
       path: "/contact",
     },
   ];
+
   return (
-    <div className="flex items-center justify-between ml-4 mr-4 mt-1 ">
+    <div className="flex items-center justify-between ml-4 mr-4 mt-1">
       <div className="flex items-center gap-20 right-4">
         <Link href="/">
           <Image src="/logo3.png" alt="logo" width={100} height={100} />
@@ -32,11 +55,9 @@ function Header() {
 
         <ul className="md:flex gap-8 hidden">
           {Menu.map((item, index) => (
-            <Link href={item.path}>
+            <Link key={index} href={item.path}>
               <li
-                className="hover:text-green-700
-            cursor-pointer hover:scale-105
-            transition-all ease-in-out"
+                className="hover:text-green-700 cursor-pointer hover:scale-105 transition-all ease-in-out"
               >
                 {item.name}
               </li>
@@ -45,13 +66,26 @@ function Header() {
         </ul>
       </div>
 
-      
-      <Link href={"/sign-in"}>
-        <Button>Get Started</Button>
-      </Link>
+      {!isLogin ?
+        <Link href={"/sign-in"}>
+          <Button>Get Started</Button>
+        </Link>
+        :
+        <Popover asChild>
+          <PopoverTrigger>
+            <CircleUserRound className="p-2 text-green-800 h-12 w-12" />
+          </PopoverTrigger>
+          <PopoverContent className="w-44">
+            <ul className="flex flex-col gap-2">
+              <li className="cursor-pointer p-2 hover:bg-slate-100 rounded-md">Profile</li>
+              <li className="cursor-pointer p-2 hover:bg-slate-100 rounded-md">My Booking</li>
+              <li onClick={() => onSignOut()} className="cursor-pointer p-2 hover:bg-slate-100 rounded-md">Logout</li>
+            </ul>
+          </PopoverContent>
+        </Popover>
+      }
     </div>
   );
 }
 
 export default Header;
-

@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Input } from '../../components/ui/input';
 import { Button } from '../../components/ui/button';
 import Link from 'next/link';
@@ -40,9 +40,18 @@ function SignIn() {
       router.push('/')
     } catch (error) {
       console.error("Error login account:", error);
-      toast("falscher Login oder Passwort")
+      toast( "falscher Login oder Passwort")
     }
   };
+
+  useEffect(() => {
+      const user = sessionStorage.getItem('user');
+      if (user) {
+        router.push('/');
+      }  
+  }, []);
+
+
 
   return (
     <div className="flex items-baseline justify-center my-20 ">

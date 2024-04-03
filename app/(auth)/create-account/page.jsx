@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Input } from '../../components/ui/input';
 import { Button } from '../../components/ui/button';
 import Link from 'next/link';
@@ -50,6 +50,13 @@ function CreateAccount() {
       toast("Error while creating account")
     }
   };
+
+  useEffect(() => {
+    const user = sessionStorage.getItem('user');
+    if (user) {
+      router.push('/');
+    }  
+}, []);
 
   return (
     <div className="flex items-baseline justify-center my-20 ">

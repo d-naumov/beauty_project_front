@@ -1,5 +1,6 @@
 import React from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 function MasterList() {
   return (
@@ -29,6 +30,7 @@ function MasterList() {
               Franchesco Dutty
             </h2>
             <h2 className="font-bold">Beauty Salon</h2>
+            <Link className="w-full" href={"/details/1"}>
             <h2
               className="p-2 px-3 border-[1px] border-green-700
             text-green-700 rounded-full w-full text-center m-2
@@ -37,6 +39,7 @@ function MasterList() {
             >
               Buchen Jetzt
             </h2>
+            </Link>
           </div>
         </div>
 
@@ -59,6 +62,7 @@ function MasterList() {
               Franchesco Dutty
             </h2>
             <h2 className="font-bold">Beauty Salon</h2>
+            <Link className="w-full" href={"/details/2"}>
             <h2
               className="p-2 px-3 border-[1px] border-green-700
             text-green-700 rounded-full w-full text-center m-2
@@ -67,6 +71,7 @@ function MasterList() {
             >
               Buchen Jetzt
             </h2>
+            </Link>
           </div>
         </div>
 
@@ -89,6 +94,7 @@ function MasterList() {
               Franchesco Dutty
             </h2>
             <h2 className="font-bold">Beauty Salon</h2>
+            <Link className="w-full" href={"/details/3"}>
             <h2
               className="p-2 px-3 border-[1px] border-green-700
             text-green-700 rounded-full w-full text-center m-2
@@ -97,6 +103,7 @@ function MasterList() {
             >
               Buchen Jetzt
             </h2>
+            </Link>
           </div>
         </div>
 
@@ -119,6 +126,7 @@ function MasterList() {
               Franchesco Dutty
             </h2>
             <h2 className="font-bold">Beauty Salon</h2>
+            <Link className="w-full" href={"/details/4"}>
             <h2
               className="p-2 px-3 border-[1px] border-green-700
             text-green-700 rounded-full w-full text-center m-2
@@ -127,6 +135,7 @@ function MasterList() {
             >
               Buchen Jetzt
             </h2>
+            </Link>
           </div>
         </div>
 
