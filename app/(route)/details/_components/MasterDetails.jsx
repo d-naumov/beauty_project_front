@@ -2,7 +2,7 @@ import { MapPin } from "lucide-react";
 import Image from "next/image";
 import React from "react";
 import { FaPhone } from "react-icons/fa";
-import { Button } from "../../../components/ui/button";
+import BookAppointment from "./BookAppointment";
 
 function MasterDetails() {
 
@@ -17,6 +17,11 @@ function MasterDetails() {
             icon:'/facebook.png',
             url:''
         },
+        {
+          id:1,
+          icon:'/telegram.png',
+          url:''
+      },
     ]
 
   return ( 
@@ -30,7 +35,7 @@ function MasterDetails() {
           alt="logo"
           width={200}
           height={200}
-          className="rounded-lg h-[450px] w-[370px] object-cover"
+          className="rounded-lg h-[350px] w-[270px] object-cover"
         />
       </div>
 
@@ -51,14 +56,15 @@ function MasterDetails() {
         
         <div className="flex gap-3">
             {SocialMediaList.map((item,index) =>
-            <Image src={item.icon} key={index}
+            <Image src={item.icon} alt="logo" key={index}
             width={30}
             height={30}
             />
             )}
         </div>
         
-      <Button className="m-3 rounded-xl">Temrin machen</Button>
+      
+      <BookAppointment/>
 
       </div>
 
@@ -66,7 +72,7 @@ function MasterDetails() {
 
 <div className="p-3 border-[1px] rounded-lg mt-5">
 <h2 className="font-bold text-[20px]">About Me</h2>
-<p className="text-gray-500 tracking-wide mt-2">Lorem ipsum dolor sit amet consectetur, 
+<div className="text-gray-500 tracking-wide mt-2">Lorem ipsum dolor sit amet consectetur, 
     adipisicing elit. In asperiores voluptates 
     excepturi qui eum accusamus quos doloribus, 
     beatae dolorum quaerat illo natus quae veniam 
@@ -75,7 +81,7 @@ function MasterDetails() {
     adipisicing elit. In asperiores voluptates 
     excepturi qui eum accusamus quos doloribus, 
     beatae dolorum quaerat illo natus quae veniam 
-    doloremque ut incidunt ullam blanditiis nulla!</p>
+    doloremque ut incidunt ullam blanditiis nulla!</div>
 </div>
 </>
   );
