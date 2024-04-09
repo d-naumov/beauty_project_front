@@ -52,9 +52,6 @@ function BookAppointment() {
     return day < today;
   };
 
-  const handleTimeSlotClick = (time) => {
-    setSelectedTimeSlot(time);
-  };
 
   const isSlotBooking=(time)=> {
    return timeSlots.find(item=>item.time)

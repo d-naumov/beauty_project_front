@@ -78,7 +78,7 @@ function Header() {
           <PopoverContent className="w-44">
             <ul className="flex flex-col gap-2">
               <li className="cursor-pointer p-2 hover:bg-slate-100 rounded-md">Profile</li>
-              <li className="cursor-pointer p-2 hover:bg-slate-100 rounded-md">My Booking</li>
+              <Link href={"/my-booking"} className="cursor-pointer p-2 hover:bg-slate-100 rounded-md">My Booking</Link>
               <li onClick={() => onSignOut()} className="cursor-pointer p-2 hover:bg-slate-100 rounded-md">Logout</li>
             </ul>
           </PopoverContent>
