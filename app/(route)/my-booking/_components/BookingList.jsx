@@ -1,9 +1,8 @@
 "use client"
 
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Image from "next/image";
-import { CalendarDays } from "lucide-react";
-import { Clock } from "lucide-react";
+import { CalendarDays, Clock } from "lucide-react";
 import { FaWallet } from 'react-icons/fa';
 import { Button } from '../../../components/ui/button';
 
@@ -28,12 +27,14 @@ function BookingList({ bookingList }) {
         },
       });
 
+      console.log("Delete booking response status:", res.status);
+
       if (!res.ok) {
         throw new Error(`Failed to delete booking with ID ${bookingId}.`);
       }
 
       console.log(`Booking with ID ${bookingId} deleted successfully.`);
-      // Если бронирование успешно удалено, обновляем список бронирований
+     
       setFilteredBookings(prevBookings => prevBookings.filter(booking => booking.id !== bookingId));
     } catch (error) {
       console.error(`Error deleting booking with ID ${bookingId}:`, error);

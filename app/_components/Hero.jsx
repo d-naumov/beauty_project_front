@@ -1,5 +1,6 @@
 import React from "react";
 import { Button } from "../components/ui/button";
+import Link from "next/link";
 
 function Hero() {
   return (
@@ -36,7 +37,7 @@ function Hero() {
               zu finden, der Ihren Tag noch schöner macht
             </p>
 
-            <Button className="mt-10">Jetzt Erkunden</Button>
+            <Link href={"/explorePage"}><Button className="mt-10 cursor-pointer">Jetzt Erkunden</Button></Link>
           </div>
         </div>
       </div>

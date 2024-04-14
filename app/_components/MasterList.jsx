@@ -1,9 +1,37 @@
+"use client"
+
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 
 function MasterList() {
+
+  // const [masterList, setMasterList] = useState([]);
+  
+  // useEffect(() => {
+  //   getMasterList();
+  // }, []);
+
+
+  // const getMasterList = async () => {
+  //   try {
+  //     const res = await fetch("/api/users/masters", {
+  //       headers: { accept: "*/*" },
+  //     });
+  //     const arr = await res.json();
+  //     console.log(arr);
+  //     setMasterList(arr);
+  //   } catch (error) {
+  //     console.error("Error fetching masters:", error);
+  //   }
+  // };
+
+
+
   return (
+
+
+
     <div className="mb-10 px-8">
       <h2 className="font-bold text-xl ">Beliebte Meister</h2>
 
