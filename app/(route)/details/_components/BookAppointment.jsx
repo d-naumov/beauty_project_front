@@ -16,18 +16,49 @@ import { CalendarDays } from "lucide-react";
 import { Clock } from "lucide-react";
 import { Button } from "../../../components/ui/button";
 import { toast } from 'sonner';
+import { getTime } from "date-fns";
 
-
-
-function BookAppointment() {
-  const [date, setDate] = useState(new Date());
-  const [timeSlots, setTimeSlots] = useState([]);
+const BookAppointment = () => {
+  const [date, setDate] = useState(new Date()); 
   const [selectedTimeSlot, setSelectedTimeSlot] = useState(null);
-  
+  const [timeSlots, setTimeSlots] = useState([]);
+  const [userId, setUserId] = useState(null); 
+
+
+  useEffect(()=>{
+    getTime();
+  },[])
 
   useEffect(() => {
-    getTime();
+    const currentUser = JSON.parse(sessionStorage.getItem('user'));
+  
+    if (!currentUser || !currentUser.accessToken) {
+      console.error("Access token is missing:", currentUser);
+      return; 
+    }
+  
+    const tokenPayload = currentUser.accessToken.split('.')[1];
+    const decodedToken = JSON.parse(atob(tokenPayload));
+    console.log("Decoded token:", decodedToken);
+  
+    if (!decodedToken || !decodedToken.user_id) {
+      console.error("User ID is missing in decoded token:", decodedToken);
+      return; 
+    }
+  
+    setUserId(decodedToken.user_id);
   }, []);
+
+
+  // const isPastDay = (day) => {
+  //   const today = new Date();
+  //   today.setHours(0, 0, 0, 0);
+  //   return day < today;
+  // };
+
+  const isSlotBooking = (time) => {
+    return timeSlots.find(item => item.time === time);
+  };
 
   const getTime = () => {
     const timeList = [];
@@ -52,21 +83,15 @@ function BookAppointment() {
     return day < today;
   };
 
-
-  const isSlotBooking=(time)=> {
-   return timeSlots.find(item=>item.time)
-  }
-
   const saveBooking = async () => {
-    
     try {
       if (!selectedTimeSlot) {
         throw new Error("Please select a time slot.");
       }
-
+  
       const bookingData = {
         user: {
-          id: 7
+          id: userId 
         },
         procedure: {
           id: 1
@@ -82,7 +107,9 @@ function BookAppointment() {
         status: "PENDING",
         totalPrice: 0
       };
-
+  
+      console.log("Booking data:", bookingData);
+  
       const res = await fetch("/api/bookings", {
         method: "POST",
         headers: {
@@ -90,32 +117,36 @@ function BookAppointment() {
           "accept": "application/json",
         },
         body: JSON.stringify(bookingData),
+        
       });
-
-      if (!selectedTimeSlot) throw new Error("Please select a time slot.");
-        const data = await res.json();
-        console.log("Booking saved for", date, selectedTimeSlot);
-        console.log(data);
-        sessionStorage.setItem('user', JSON.stringify(data))
-        toast("Booking confirmed", { type: "success" });
-      } catch (error) {
-        console.error("Error booking appointment:", error);
-        toast(error.message, { type: "error" });
+  
+      if (!res.ok) {
+        throw new Error("Failed to save booking.");
       }
-    };
+  
+      const data = await res.json();
+      console.log("Booking saved for", date, selectedTimeSlot);
+      console.log(data);
+      toast("Booking confirmed", { type: "success" });
+      setSelectedTimeSlot(null);
+      setDate(new Date());
+    } catch (error) {
+      console.error("Error booking appointment:", error);
+      toast(error.message, { type: "error" });
+    }
+  };
 
   return (
     <Dialog>
       <DialogTrigger>
-      <div style={{
-            cursor: "pointer",
-            padding: "10px 20px",
-            backgroundColor: "black",
-            color: "#fff",
-            borderRadius: "15px",
-            marginTop: "5px",
-          }}
-        >
+        <div style={{
+          cursor: "pointer",
+          padding: "10px 20px",
+          backgroundColor: "black",
+          color: "#fff",
+          borderRadius: "15px",
+          marginTop: "5px",
+        }}>
           Termin machen
         </div>
       </DialogTrigger>
@@ -132,30 +163,30 @@ function BookAppointment() {
                   <CalendarDays className="text-green-800 h-5 w-5" />
                   Datum auswählen
                 </h2>
-                <Calendar 
-                mode="single" 
-                selected={date} 
-                onSelect={setDate} 
-                disabled={isPastDay} 
-                className="rounded-md border"/>
+                <Calendar
+                  mode="single"
+                  selected={date}
+                  onSelect={setDate}
+                  disabled={isPastDay(date)} // Передаем дату в функцию isPastDay
+                  className="rounded-md border" />
               </div>
 
               <div>
                 <div className="mt-3 md:mt-0">
-                  <h2 className="flex gap-2 items-center mb-5">
+                  <h2 className="flex gap-2 items-center mb-3">
                     <Clock className="text-green-800 h-5 w-5" />
                     Verfügbare Zeiten
                   </h2>
 
-                  <div className="grid grid-cols-3 gap-3">
+                  <div className="grid grid-cols-3 gap-2 border rounded-lg p-3">
                     {timeSlots?.map((item, index) => (
-                      <h2 
+                      <h2
                         key={index}
                         disabled={isSlotBooking(item.time)}
                         onClick={() => setSelectedTimeSlot(item.time)}
                         className={`p-2 border rounded-full text-center
                           hover:bg-green-600 hover:text-white cursor-pointer
-                          ${item.time === selectedTimeSlot && "bg-green-600 text-white" }`}>
+                          ${item.time === selectedTimeSlot && "bg-green-600 text-white"}`}>
                         {item.time}
                       </h2>
                     ))}
@@ -166,12 +197,11 @@ function BookAppointment() {
           </DialogDescription>
         </DialogHeader>
 
-
         <DialogFooter className="flex justify-between mr-5">
           <DialogClose asChild>
             <div >
               <Button className="m-3" variant="destructive" >Close</Button>
-              <Button onClick={saveBooking} disabled={!(date&&selectedTimeSlot)}>Book</Button>
+              <Button onClick={saveBooking} disabled={!(date && selectedTimeSlot)}>Book</Button>
             </div>
           </DialogClose>
         </DialogFooter>
@@ -182,4 +212,3 @@ function BookAppointment() {
 }
 
 export default BookAppointment;
-

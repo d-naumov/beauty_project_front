@@ -16,7 +16,7 @@ const ProfilePage = () => {
 
     if (!currentUser || !currentUser.accessToken) {
       console.error("Access token is missing:", currentUser);
-      return; // Добавляем возврат из функции, если токен отсутствует
+      return; 
     }
 
     const tokenPayload = currentUser.accessToken.split('.')[1];
@@ -25,7 +25,7 @@ const ProfilePage = () => {
 
     if (!decodedToken || !decodedToken.roles) {
       console.error("User roles are missing in decoded token:", decodedToken);
-      return; // Добавляем возврат из функции, если роли пользователя отсутствуют
+      return; 
     }
     setUserName(decodedToken.firstName);
     setUserLastName(decodedToken.lastName);
@@ -33,7 +33,7 @@ const ProfilePage = () => {
     setUserEmail(decodedToken.sub); 
   }, []);
 
-  // Проверяем, есть ли у пользователя роли перед отображением профиля
+  
   if (!userRoles) {
     return <div>Loading...</div>;
   }
