@@ -6,6 +6,8 @@ import Footer from "./_components/Footer";
 import { Toaster } from ".//components/ui/sonner"
 
 
+
+
 const outfit = Outfit({ subsets: ["latin"] });
 
 export const metadata = {
