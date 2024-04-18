@@ -66,24 +66,25 @@ function Header() {
         </ul>
       </div>
 
-      {!isLogin ?
-        <Link href={"/sign-in"}>
-          <Button>Get Started</Button>
-        </Link>
-        :
-        <Popover asChild>
-          <PopoverTrigger>
-            <CircleUserRound className="p-2 text-green-800 h-12 w-12" />
-          </PopoverTrigger>
-          <PopoverContent className="w-44">
-            <ul className="flex flex-col gap-2">
-              <Link href={"/profile"} className="cursor-pointer p-2 hover:bg-slate-100 rounded-md">Profile</Link>
-              <Link href={"/my-booking"} className="cursor-pointer p-2 hover:bg-slate-100 rounded-md">My Booking</Link>
-              <li onClick={() => onSignOut()} className="cursor-pointer p-2 hover:bg-slate-100 rounded-md">Logout</li>
-            </ul>
-          </PopoverContent>
-        </Popover>
-      }
+      {!isLogin ? (
+  <Link href={"/sign-in"}>
+    <Button>Get Started</Button>
+  </Link>
+) : (
+  <Popover asChild>
+    <PopoverTrigger>
+      <CircleUserRound className="p-2 text-green-800 h-12 w-12" />
+    </PopoverTrigger>
+    <PopoverContent className="w-44">
+      <ul className="flex flex-col gap-2">
+        <Link href={"/profile"} className="cursor-pointer p-2 hover:bg-slate-100 rounded-md">Profile</Link>
+        <Link href={"/my-booking"} className="cursor-pointer p-2 hover:bg-slate-100 rounded-md">My Booking</Link>
+        <li onClick={() => onSignOut()} className="cursor-pointer p-2 hover:bg-slate-100 rounded-md">Logout</li>
+      </ul>
+    </PopoverContent>
+  </Popover>
+)}
+
     </div>
   );
 }

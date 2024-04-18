@@ -12,7 +12,7 @@ const ExplorePage = () => {
   return (
     <div className="m-10 max-w-[800px] mx-auto mb-10 items-center flex flex-col gap-4 px-5">
       <h2 className="font-bold text-4xl tracking-wide">
-        Finde einen <span className="text-green-800">Meister</span>{" "}
+        Finde deinen <span className="text-green-800">Meister</span>{" "}
       </h2>
       <h2 className="text-gray-500 text-xl">
         Suchen Sie Ihren Master und buchen Sie einen Termin mit einem Klick

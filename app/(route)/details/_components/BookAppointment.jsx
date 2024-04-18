@@ -1,138 +1,126 @@
-"use client";
+"use client"
 
 import React, { useEffect, useState } from "react";
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "../../../components/ui/dialog";
+import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "../../../components/ui/dialog";
 import { Calendar } from "../../../components/ui/calendar";
 import { CalendarDays } from "lucide-react";
 import { Clock } from "lucide-react";
 import { Button } from "../../../components/ui/button";
 import { toast } from 'sonner';
-import { getTime } from "date-fns";
 
 const BookAppointment = () => {
-  const [date, setDate] = useState(new Date()); 
+  const [date, setDate] = useState(new Date());
   const [selectedTimeSlot, setSelectedTimeSlot] = useState(null);
   const [timeSlots, setTimeSlots] = useState([]);
-  const [userId, setUserId] = useState(null); 
-
-
-  useEffect(()=>{
-    getTime();
-  },[])
+  const [userId, setUserId] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    getTime();
     const currentUser = JSON.parse(sessionStorage.getItem('user'));
-  
+
     if (!currentUser || !currentUser.accessToken) {
       console.error("Access token is missing:", currentUser);
-      return; 
+      return;
     }
-  
+
     const tokenPayload = currentUser.accessToken.split('.')[1];
     const decodedToken = JSON.parse(atob(tokenPayload));
     console.log("Decoded token:", decodedToken);
-  
+
     if (!decodedToken || !decodedToken.user_id) {
       console.error("User ID is missing in decoded token:", decodedToken);
-      return; 
+      return;
     }
-  
+
     setUserId(decodedToken.user_id);
   }, []);
 
-
-  // const isPastDay = (day) => {
-  //   const today = new Date();
-  //   today.setHours(0, 0, 0, 0);
-  //   return day < today;
-  // };
-
-  const isSlotBooking = (time) => {
-    return timeSlots.find(item => item.time === time);
-  };
-
+  // Генерируем доступные временные слоты
   const getTime = () => {
     const timeList = [];
 
+    // Генерация временных слотов с интервалом 30 минут
     for (let i = 10; i <= 12; i++) {
-      timeList.push({ time: `${i}:00 AM` });
-      timeList.push({ time: `${i}:30 AM` });
+      timeList.push(`${i}:00 AM`);
+      timeList.push(`${i}:30 AM`);
     }
 
     for (let i = 1; i <= 6; i++) {
-      timeList.push({ time: `${i}:00 PM` });
-      timeList.push({ time: `${i}:30 PM` });
+      timeList.push(`${i}:00 PM`);
+      timeList.push(`${i}:30 PM`);
     }
 
     setTimeSlots(timeList);
   };
 
-
+  // Проверка, является ли день прошедшим
   const isPastDay = (day) => {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
     return day < today;
   };
 
+  // Проверка, забронирован ли слот
+  const isSlotBooking = (time) => {
+    // Здесь должна быть ваша логика для проверки, забронировано ли это время
+    return false; // Пока просто возвращаем false
+  };
+
+  // Сохранение брони
   const saveBooking = async () => {
     try {
       if (!selectedTimeSlot) {
         throw new Error("Please select a time slot.");
       }
-  
+
+      setLoading(true);
+
+      const formattedTime = selectedTimeSlot.replace(/\s/g, ''); // Удалить пробелы из времени
+      const [hours, minutes] = formattedTime.split(':'); // Разделить часы и минуты
+      const hours24Format = parseInt(hours) % 12 + (selectedTimeSlot.includes('PM') ? 12 : 0); // Преобразовать в 24-часовой формат
+
+      const dateTime = new Date(date.getFullYear(), date.getMonth(), date.getDate(), hours24Format, parseInt(minutes), 0);
+      const isoDateTime = dateTime.toISOString().split('.')[0]; // Убрать миллисекунды
+
       const bookingData = {
-        user: {
-          id: userId 
-        },
-        procedure: {
-          id: 1
-        },
-        dateTime: new Date(
-          date.getFullYear(),
-          date.getMonth(),
-          date.getDate(),
-          parseInt(selectedTimeSlot.split(":")[0]),
-          parseInt(selectedTimeSlot.split(":")[1]),
-          0
-        ).toISOString(),
-        status: "PENDING",
-        totalPrice: 0
+        clientId: 7,
+        masterId: 13,
+        procedureId: 1,
+        dateTime: isoDateTime,
       };
-  
+
       console.log("Booking data:", bookingData);
-  
-      const res = await fetch("/api/bookings", {
-        method: "POST",
+
+      const requestOptions = {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
-          "accept": "application/json",
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
         },
-        body: JSON.stringify(bookingData),
-        
-      });
-  
-      if (!res.ok) {
-        throw new Error("Failed to save booking.");
-      }
-  
+        body: JSON.stringify(bookingData)
+      };
+
+      console.log("Request being sent:", requestOptions);
+
+      // Отправка запроса на сервер для сохранения брони
+      const res = await fetch('/api/bookings', requestOptions);
       const data = await res.json();
-      console.log("Booking saved for", date, selectedTimeSlot);
-      console.log(data);
+
+      if (!res.ok) {
+        throw new Error('Failed to save booking.');
+      }
+
+      console.log('Booking saved:', data);
+
       toast("Booking confirmed", { type: "success" });
       setSelectedTimeSlot(null);
       setDate(new Date());
     } catch (error) {
-      console.error("Error booking appointment:", error);
-      toast(error.message, { type: "error" });
+      console.error("Error saving booking:", error);
+      toast("Failed to save booking", { type: "error" });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -147,14 +135,14 @@ const BookAppointment = () => {
           borderRadius: "15px",
           marginTop: "5px",
         }}>
-          Termin machen
+          Vereinbaren Sie einen Termin
         </div>
       </DialogTrigger>
 
       <DialogContent>
         <DialogHeader>
           <DialogTitle>
-            <div className="text-center">Termin</div>
+            <div className="text-center">Termin machen</div>
           </DialogTitle>
           <DialogDescription>
             <div className="grid grid-cols-1 md:grid-cols-2 mt-5 ">
@@ -167,7 +155,7 @@ const BookAppointment = () => {
                   mode="single"
                   selected={date}
                   onSelect={setDate}
-                  disabled={isPastDay(date)} // Передаем дату в функцию isPastDay
+                  disabled={isPastDay(date)}
                   className="rounded-md border" />
               </div>
 
@@ -175,19 +163,19 @@ const BookAppointment = () => {
                 <div className="mt-3 md:mt-0">
                   <h2 className="flex gap-2 items-center mb-3">
                     <Clock className="text-green-800 h-5 w-5" />
-                    Verfügbare Zeiten
+                    Verfügbare Zeit
                   </h2>
 
                   <div className="grid grid-cols-3 gap-2 border rounded-lg p-3">
-                    {timeSlots?.map((item, index) => (
+                    {timeSlots?.map((time, index) => (
                       <h2
                         key={index}
-                        disabled={isSlotBooking(item.time)}
-                        onClick={() => setSelectedTimeSlot(item.time)}
+                        disabled={isSlotBooking(time)}
+                        onClick={() => setSelectedTimeSlot(time)}
                         className={`p-2 border rounded-full text-center
                           hover:bg-green-600 hover:text-white cursor-pointer
-                          ${item.time === selectedTimeSlot && "bg-green-600 text-white"}`}>
-                        {item.time}
+                          ${time === selectedTimeSlot && "bg-green-600 text-white"}`}>
+                        {time}
                       </h2>
                     ))}
                   </div>
@@ -199,9 +187,11 @@ const BookAppointment = () => {
 
         <DialogFooter className="flex justify-between mr-5">
           <DialogClose asChild>
-            <div >
+            <div>
               <Button className="m-3" variant="destructive" >Close</Button>
-              <Button onClick={saveBooking} disabled={!(date && selectedTimeSlot)}>Book</Button>
+              <Button onClick={saveBooking} disabled={!(date && selectedTimeSlot) || loading}>
+                {loading ? "Saving..." : "Aufzeichnen"}
+              </Button>
             </div>
           </DialogClose>
         </DialogFooter>
@@ -212,3 +202,6 @@ const BookAppointment = () => {
 }
 
 export default BookAppointment;
+
+
+

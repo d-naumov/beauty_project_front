@@ -2,9 +2,11 @@
 
 import React, { useEffect, useState } from 'react';
 import Image from "next/image";
-import { CalendarDays, Clock } from "lucide-react";
-import { FaWallet } from 'react-icons/fa';
 import { Button } from '../../../components/ui/button';
+import { FcCalendar } from "react-icons/fc";
+import { FcClock } from "react-icons/fc";
+import { FcCurrencyExchange } from "react-icons/fc";
+import { FcRating } from "react-icons/fc";
 
 function BookingList({ bookingList }) {
   const capitalizeFirstLetter = (string) => {
@@ -41,6 +43,39 @@ function BookingList({ bookingList }) {
     }
   };
 
+  useEffect(() => {
+    const fetchProcedureInfoForBookings = async () => {
+      const updatedBookings = await Promise.all(bookingList.map(async (booking) => {
+        if (booking.procedureId) {
+          try {
+            const res = await fetch(`/api/procedures/${booking.procedureId}`, {
+              method: "GET",
+              headers: {
+                "accept": "*/*",
+              },
+            });
+  
+            if (!res.ok) {
+              throw new Error(`Failed to fetch procedure info for procedure ID ${booking.procedureId}.`);
+            }
+  
+            const procedureInfo = await res.json();
+            return { ...booking, procedureInfo };
+          } catch (error) {
+            console.error(`Error fetching procedure info for procedure ID ${booking.procedureId}:`, error);
+            return booking;
+          }
+        } else {
+          return booking;
+        }
+      }));
+  
+      setFilteredBookings(updatedBookings);
+    };
+  
+    fetchProcedureInfoForBookings();
+  }, []);
+
   return (
     <div>
       {filteredBookings.map((booking, index) => (
@@ -54,27 +89,46 @@ function BookingList({ bookingList }) {
           />
 
           <div className="flex flex-col gap-2 w-full">
-            <h2 className="text-lg font-semibold items-center flex justify-between">{capitalizeFirstLetter(booking.procedure.name)}
-            {new Date(booking.dateTime) > new Date() && 
-            <Button 
-            className="text-green-600 border-green-600 hover:bg-red-400 hover:text-white"
-            variant="outline" 
-            onClick={() => deleteBooking(booking.id)}>Cancel Appointment</Button>}
+            <h2 className="text-lg font-semibold items-center flex justify-between">
+              {booking.procedure && capitalizeFirstLetter(booking.procedure.name)}
+              {new Date(booking.dateTime) > new Date() && 
+                <Button 
+                  className="text-green-600 border-green-600 hover:bg-red-400 hover:text-white"
+                  variant="outline" 
+                  onClick={() => deleteBooking(booking.id)}>
+                  Cancel Appointment
+                </Button>
+              }
             </h2>
-            <p className="flex gap-2"><CalendarDays /> {new Date(booking.dateTime).toLocaleDateString(undefined, {
-              weekday: 'short', // "Mon"
-              year: 'numeric', // "2024"
-              month: 'short', // "Apr"
-              day: 'numeric', // "08"
-            })} 
+
+            <p className="flex gap-2">
+            <FcCalendar /> 
+              {new Date(booking.dateTime).toLocaleDateString(undefined, {
+                weekday: 'short', // "Mon"
+                year: 'numeric', // "2024"
+                month: 'short', // "Apr"
+                day: 'numeric', // "08"
+              })}
             </p>
 
-            <p className="flex gap-2"><Clock/> At {new Date(booking.dateTime).toLocaleTimeString(undefined, {
-              hour: '2-digit', // "04"
-              minute: '2-digit', // "30"
-              hour12: true // AM/PM
-            })}</p>
-            <p className="flex gap-2"><FaWallet /> Price: {booking.procedure.price} $</p>
+            <p className="flex gap-2">
+            <FcClock /> At {new Date(booking.dateTime).toLocaleTimeString(undefined, {
+                hour: '2-digit', // "04"
+                minute: '2-digit', // "30"
+                hour12: true // AM/PM
+              })}
+            </p>
+
+            {booking.procedureInfo && (
+  <div>
+    <p className="flex gap-2">
+      <FcCurrencyExchange /> Price: {booking.procedureInfo.price} $
+    </p>
+    <p className="flex gap-2" style={{ marginTop: '10px' }}>
+      <FcRating /> Procedure: {booking.procedureInfo.name}
+    </p>
+  </div>
+)}
           </div>
         </div>
       ))}

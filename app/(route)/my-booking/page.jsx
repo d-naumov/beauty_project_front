@@ -58,10 +58,15 @@ const res = await fetch(`/api/bookings/active/${userId}`, {
   };
 
   const filterUserBooking = (type) => {
-    return bookingList.filter(item =>
-      type === "upcoming" ? new Date(item.dateTime) >= new Date() : new Date(item.dateTime) <= new Date()
-    );
+    if (type === "upcoming") {
+      return bookingList.filter(item => item.status !== "CANCELED" && new Date(item.dateTime) >= new Date());
+    } else if (type === "expired") {
+      return bookingList.filter(item => item.status !== "CANCELED" && new Date(item.dateTime) < new Date());
+    } else {
+      return bookingList.filter(item => item.status !== "CANCELED");
+    }
   }
+  
 
   return (
     <div className="px-4 sm:px-10 mt-10">
