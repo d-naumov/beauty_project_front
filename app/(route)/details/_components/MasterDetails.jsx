@@ -1,91 +1,85 @@
+import React, { useEffect, useState } from "react";
 import { MapPin } from "lucide-react";
 import Image from "next/image";
-import React from "react";
 import { FaPhone } from "react-icons/fa";
 import BookAppointment from "./BookAppointment";
+import { MdEmail } from "react-icons/md";
 
-function MasterDetails() {
+function MasterDetails({ master }) {
+  const [procedures, setProcedures] = useState([]);
 
-    const SocialMediaList=[
-        {
-            id:1,
-            icon:'/instagram.png',
-            url:''
-        },
-        {
-            id:1,
-            icon:'/facebook.png',
-            url:''
-        },
-        {
-          id:1,
-          icon:'/telegram.png',
-          url:''
-      },
-    ]
+  useEffect(() => {
+    async function fetchProcedures() {
+      const promises = master.procedureIds.map(id =>
+        fetch(`/api/procedures/${id}`).then(response => response.json())
+      );
+      const results = await Promise.all(promises);
+      setProcedures(results);
+    }
 
-  return ( 
+    if (master && master.procedureIds) {
+      fetchProcedures();
+    }
+  }, [master]);
+
+  const categories = [
+    { id: 1, name: 'Haarschnitt' },
+    { id: 2, name: 'Maniküre' },
+    { id: 3, name: 'Kosmetiker' },
+    { id: 5, name: 'Epilation' },
+    { id: 6, name: 'Tätowierung' },
+    { id: 7, name: 'Piercing' }
+  ];
+
+  function getCategoryNames(categoryIds) {
+    return categoryIds.map(id => {
+      const category = categories.find(category => category.id === id);
+      return category ? category.name : null;
+    }).filter(name => name != null).join(', '); 
+  }
+
+  return (
     <>
-    <div className="grid grid-col-1 md:grid-col-3
-    border-[1px] p-5 mt-5 rounded-lg">
-      {/* Doctor foto */}
-      <div>
-        <Image
-          src="/photo-4.jpg"
-          alt="logo"
-          width={200}
-          height={200}
-          className="rounded-lg h-[350px] w-[270px] object-cover"
-        />
-      </div>
-
-      <div className="col-span-2 mt-5 flex flex-col gap-2 items-baseline">
-        {/* Doctor info */}
-        <h2 className="font-bold text-2xl">Beauty Salon</h2>
-        <h2 className="font-bold">Franchesco Dutty</h2>
-
-        <h2 className="text-md flex gap-2 text-gray-500">
-          <MapPin />
-          Sallvador str. 12550, Berlin
-        </h2>
-
-        <h2 className="text-md flex gap-2 text-gray-500">
-          <FaPhone />
-          0306676621
-        </h2>
-        
-        <div className="flex gap-3">
-            {SocialMediaList.map((item,index) =>
-            <Image src={item.icon} alt="logo" key={index}
-            width={30}
-            height={30}
+      {master && (
+        <div className="grid grid-cols-1 md:grid-cols-3 border-[1px] p-5 mt-5 rounded-lg">
+          <div>
+            <Image
+              src={`/master-${master.id}.jpg`} alt={`Master ${master.id}`}
+              width={400}
+              height={300}
+              className="rounded-lg h-[300px] w-[400px] object-cover"
             />
-            )}
+          </div>
+          <div className="col-span-2 mt-5 flex flex-col items-center gap-2">
+            <h2 className="mt-2 text-[15px] bg-green-700 p-3 rounded-full px-2 text-white">
+              {getCategoryNames(master.categoryIds)}
+            </h2>
+            <h2 className="font-bold">
+              {master.firstName} {master.lastName}
+            </h2>
+            <h2 className="text-green-800 text-md flex items-center">
+              <MdEmail className="mr-1" />
+              {master.email}
+            </h2>
+            <h2 className="text-md flex gap-2 text-green-800 items-center">
+              <MapPin />
+              {master.address}
+            </h2>
+            <h2 className="text-md flex gap-2 text-green-800 items-center">
+              <FaPhone />
+              {master.phoneNumber}
+            </h2>
+            {procedures.map(procedure => (
+              <div key={procedure.id} className="bg-green-700 text-white p-2 mt-2 rounded-lg">
+                {procedure.name} - {procedure.price} EUR
+              </div>
+            ))}
+            <BookAppointment />
+          </div>
         </div>
-        
-      
-      <BookAppointment/>
-
-      </div>
-
-    </div>
-
-<div className="p-3 border-[1px] rounded-lg mt-5">
-<h2 className="font-bold text-[20px]">About Me</h2>
-<div className="text-gray-500 tracking-wide mt-2">Lorem ipsum dolor sit amet consectetur, 
-    adipisicing elit. In asperiores voluptates 
-    excepturi qui eum accusamus quos doloribus, 
-    beatae dolorum quaerat illo natus quae veniam 
-    doloremque ut incidunt ullam blanditiis nulla!
-    Lorem ipsum dolor sit amet consectetur, 
-    adipisicing elit. In asperiores voluptates 
-    excepturi qui eum accusamus quos doloribus, 
-    beatae dolorum quaerat illo natus quae veniam 
-    doloremque ut incidunt ullam blanditiis nulla!</div>
-</div>
-</>
+      )}
+    </>
   );
 }
 
 export default MasterDetails;
-

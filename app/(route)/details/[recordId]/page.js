@@ -1,28 +1,48 @@
-import React from 'react'
+"use client"
+
+import React, { useEffect, useState, } from 'react';
 import MasterDetails from '../../../(route)/details/_components/MasterDetails'
 
+function Details({params}) {
 
-function Details() {
+  
+  const [master, setMaster]=useState();
+  
+  useEffect(() => {
+      getMasterById();
+  }, []);
+
+  const getMasterById = async () => {
+    try {
+      const res = await fetch(`/api/users/${params.recordId}`, {
+        headers: { accept: "*/*" },
+      });
+      const data = await res.json();
+      console.log(data);
+      setMaster(data)
+    } catch (error) {
+      console.error("Error fetching master:", error);
+    }
+  };
+
   return (
     <div className='p-5 md:px-20'>
-   <h2 className='font-bold text-[22px]'>Daten</h2>
+      <h2 className='font-bold text-[22px]'>Information</h2>
 
-   <div className='grid grid-col-1 md:grid-col-4 '>
-     {/* Doctor details */}
-    <div className='col-span-3 '>
-     <MasterDetails/>
-    </div>
+      <div className='grid grid-cols-1 md:grid-cols-4'>
 
+        {/* Master details */}
+        <div className='col-span-3'>
+         <MasterDetails master={master}/>
+        </div>
 
-    {/* Doctor suggestion */}
-    <div className=''>
-
-    </div>
-
-   </div>
-    
+        {/* Master suggestion */}
+        <div className=''>
+          {/* Add any additional content here */}
+        </div>
+      </div>
     </div>
   )
 }
 
-export default Details
+export default Details;

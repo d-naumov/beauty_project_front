@@ -1,7 +1,10 @@
+"use client"
+
 
 import Hero from "./_components/Hero";
 import CategorySearch from "./_components/CategorySearch";
 import MasterList from "./_components/MasterList";
+
 
 
 
