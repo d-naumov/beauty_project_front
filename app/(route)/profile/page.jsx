@@ -10,6 +10,12 @@ const ProfilePage = () => {
   const [userEmail, setUserEmail] = useState(null);
   const [userName, setUserName] = useState(null);
   const [userLastName, setUserLastName] = useState(null);
+  const [userId, setUserId] = useState(null);
+  const [userDescription, setUserDescription] = useState('');
+  const [userPhoneNumber, setUserPhoneNumber] = useState('');
+  const [userAddress, setUserAddress] = useState('');
+  const [userCategoryIds, setUserCategoryIds] = useState([]);
+  const [userProcedureIds, setUserProcedureIds] = useState([]);
 
   useEffect(() => {
     const currentUser = JSON.parse(sessionStorage.getItem('user'));
@@ -30,22 +36,43 @@ const ProfilePage = () => {
     setUserName(decodedToken.firstName);
     setUserLastName(decodedToken.lastName);
     setUserRoles(decodedToken.roles);
-    setUserEmail(decodedToken.sub); 
+    setUserEmail(decodedToken.sub);
+    setUserId(decodedToken.user_id);
+
+    // Получение информации о пользователе после получения роли
+    if (decodedToken.roles === 'MASTER') {
+      getMasterById(decodedToken.user_id);
+    }
   }, []);
 
-  
+  // Получение информации о пользователе
+  const getMasterById = async (userId) => {
+    try {
+      const res = await fetch(`/api/users/${userId}`, {
+        headers: { accept: "*/*" },
+      });
+      const data = await res.json();
+      setUserDescription(data.description || '');
+      setUserPhoneNumber(data.phoneNumber || '');
+      setUserAddress(data.address || '');
+      setUserCategoryIds(data.categoryIds || []);
+      setUserProcedureIds(data.procedureIds || []);
+    } catch (error) {
+      console.error("Error fetching master:", error);
+    }
+  };
+
   if (!userRoles) {
     return <div>Loading...</div>;
   }
 
   return (
     <div className="bg-green-50 p-6 rounded-lg shadow-md">
-      {userRoles === 'CLIENT' && <ClientProfile user={{ email: userEmail, name: userName, lastName: userLastName }} />}
-      {userRoles === 'MASTER' && <MasterProfile user={{ email: userEmail, name: userName, lastName: userLastName }} />}
-      {userRoles === 'ADMIN' && <AdminProfile user={{ email: userEmail, name: userName, lastName: userLastName }} />}
+      {userRoles === 'CLIENT' && <ClientProfile user={{ email: userEmail, name: userName, lastName: userLastName, user_id: userId }} />}
+      {userRoles === 'MASTER' && <MasterProfile user={{ email: userEmail, name: userName, lastName: userLastName, user_id: userId, description: userDescription, phoneNumber: userPhoneNumber, address: userAddress, categoryIds: userCategoryIds, procedureIds: userProcedureIds }} />}
+      {userRoles === 'ADMIN' && <AdminProfile user={{ email: userEmail, name: userName, lastName: userLastName, user_id: userId }} />}
     </div>
   );
 }
 
 export default ProfilePage;
-
