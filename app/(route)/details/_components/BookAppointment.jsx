@@ -36,11 +36,11 @@ const BookAppointment = () => {
     setUserId(decodedToken.user_id);
   }, []);
 
-  // Генерируем доступные временные слоты
+  
   const getTime = () => {
     const timeList = [];
 
-    // Генерация временных слотов с интервалом 30 минут
+    
     for (let i = 10; i <= 12; i++) {
       timeList.push(`${i}:00 AM`);
       timeList.push(`${i}:30 AM`);
@@ -54,20 +54,20 @@ const BookAppointment = () => {
     setTimeSlots(timeList);
   };
 
-  // Проверка, является ли день прошедшим
+  
   const isPastDay = (day) => {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
     return day < today;
   };
 
-  // Проверка, забронирован ли слот
+  
   const isSlotBooking = (time) => {
-    // Здесь должна быть ваша логика для проверки, забронировано ли это время
-    return false; // Пока просто возвращаем false
+    
+    return false; 
   };
 
-  // Сохранение брони
+  
   const saveBooking = async () => {
     try {
       if (!selectedTimeSlot) {
@@ -84,7 +84,7 @@ const BookAppointment = () => {
       const isoDateTime = dateTime.toISOString().split('.')[0]; // Убрать миллисекунды
 
       const bookingData = {
-        clientId: 7,
+        clientId: userId,
         masterId: 13,
         procedureId: 1,
         dateTime: isoDateTime,
@@ -103,7 +103,7 @@ const BookAppointment = () => {
 
       console.log("Request being sent:", requestOptions);
 
-      // Отправка запроса на сервер для сохранения брони
+    
       const res = await fetch('/api/bookings', requestOptions);
       const data = await res.json();
 

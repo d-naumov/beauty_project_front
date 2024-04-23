@@ -10,8 +10,8 @@ function MasterDetails({ master }) {
 
   useEffect(() => {
     async function fetchProcedures() {
-      const promises = master.procedureIds.map(id =>
-        fetch(`/api/procedures/${id}`).then(response => response.json())
+      const promises = master.procedureIds.map((id) =>
+        fetch(`/api/procedures/${id}`).then((response) => response.json())
       );
       const results = await Promise.all(promises);
       setProcedures(results);
@@ -23,19 +23,22 @@ function MasterDetails({ master }) {
   }, [master]);
 
   const categories = [
-    { id: 1, name: 'Haarschnitt' },
-    { id: 2, name: 'Maniküre' },
-    { id: 3, name: 'Kosmetiker' },
-    { id: 5, name: 'Epilation' },
-    { id: 6, name: 'Tätowierung' },
-    { id: 7, name: 'Piercing' }
+    { id: 1, name: "Haarschnitt" },
+    { id: 2, name: "Maniküre" },
+    { id: 3, name: "Kosmetiker" },
+    { id: 5, name: "Epilation" },
+    { id: 6, name: "Tätowierung" },
+    { id: 7, name: "Piercing" },
   ];
 
   function getCategoryNames(categoryIds) {
-    return categoryIds.map(id => {
-      const category = categories.find(category => category.id === id);
-      return category ? category.name : null;
-    }).filter(name => name != null).join(', '); 
+    return categoryIds
+      .map((id) => {
+        const category = categories.find((category) => category.id === id);
+        return category ? category.name : null;
+      })
+      .filter((name) => name != null)
+      .join(", ");
   }
 
   return (
@@ -43,8 +46,8 @@ function MasterDetails({ master }) {
       {master && (
         <div className="grid grid-cols-1 md:grid-cols-3 border-[1px] p-5 mt-5 rounded-lg">
           <div>
-            <Image
-              src={`/master-${master.id}.jpg`} alt={`Master ${master.id}`}
+            <img
+              src={master.profileImageUrl}
               width={400}
               height={300}
               className="rounded-lg h-[300px] w-[400px] object-cover"
@@ -69,8 +72,11 @@ function MasterDetails({ master }) {
               <FaPhone />
               {master.phoneNumber}
             </h2>
-            {procedures.map(procedure => (
-              <div key={procedure.id} className="bg-green-700 text-white p-2 mt-2 rounded-lg">
+            {procedures.map((procedure) => (
+              <div
+                key={procedure.id}
+                className="bg-green-700 text-white p-2 mt-2 rounded-lg"
+              >
                 {procedure.name} - {procedure.price} EUR
               </div>
             ))}
@@ -83,3 +89,4 @@ function MasterDetails({ master }) {
 }
 
 export default MasterDetails;
+

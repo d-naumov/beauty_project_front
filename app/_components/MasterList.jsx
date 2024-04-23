@@ -58,7 +58,7 @@ function MasterList() {
                cursor-pointer hover:border-green-700 hover:shadow-sm 
                transition-all ease-in-out" key={index}> 
                
-            <Image src={`/master-${master.id}.jpg`} alt={`Master ${master.id}`} width={500} height={400}
+            <img src={master.profileImageUrl} width={500} height={400}
               className="h-[400px] w-full object-cover rounded-lg"
               />
 

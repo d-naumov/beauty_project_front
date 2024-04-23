@@ -1,5 +1,7 @@
 "use client"
 
+"use client"
+
 import { useState, useEffect } from "react";
 import { Button } from "../components/ui/button";
 import Image from "next/image";
@@ -26,7 +28,7 @@ function Header() {
     sessionStorage.clear();
     setIsLogin(false); 
     router.push('/sign-in');
-  }
+  };
 
   const Menu = [
     {
@@ -90,3 +92,7 @@ function Header() {
 }
 
 export default Header;
+
+
+
+
