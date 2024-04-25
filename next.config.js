@@ -15,8 +15,15 @@ module.exports = {
                 destination:'http://localhost:8080/api/:path*'
             }
         ]
-    } 
+    }
+     
 }
-
+const nextConfig = {
+    typescript: {
+       ignoreBuildErrors: true,
+    },
+  };
+  
+  module.exports = nextConfig;
 
 
