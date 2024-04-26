@@ -21,6 +21,7 @@ module.exports = {
 const nextConfig = {
     typescript: {
        ignoreBuildErrors: true,
+       
     },
   };
   
