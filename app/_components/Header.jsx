@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useContext } from "react";
+import { useEffect, useContext } from "react";
 import { Button } from "../components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
@@ -11,24 +11,18 @@ import {
   PopoverTrigger,
 } from "../components/ui/popover";
 import { useRouter } from "next/navigation";
-import { useAuth } from "../hooks/useAuth";
-import { AuthContext } from "../contexts/AuthContext";
+import { AuthContext } from "../context/AuthContext";
+import Theme from "../_components/theme/Theme-component";
 
 function Header() {
-  const { user, logout } = useAuth();
-  // const { user } = useContext(AuthContext);
-  const [isLogin, setIsLogin] = useState(false);
+  const { user, setUser } = useContext(AuthContext);
   const router = useRouter();
   console.log(user);
-  useEffect(() => {
-    // const userData = sessionStorage.getItem("user");
-    // setIsLogin(userData ? true : false);
-  }, []);
+  useEffect(() => {}, []);
 
   const onSignOut = () => {
-    // sessionStorage.clear();
-    // setIsLogin(false);
-    logout();
+    setUser(null);
+    sessionStorage.removeItem("user");
     router.push("/sign-in");
   };
 
@@ -69,41 +63,53 @@ function Header() {
       </div>
 
       {!user ? (
-        <Link href={"/sign-in"}>
-          <Button>Get Started</Button>
-        </Link>
+        <div className="flex items-center gap-4">
+          <Theme />
+          <Link href={"/sign-in"}>
+            <Button
+              className=" inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 dark:ring-offset-neutral-950 dark:focus-visible:ring-neutral-300"
+              style={{ backgroundColor: "#006400", color: "#ffffff" }}
+            >
+              Login
+            </Button>
+          </Link>
+        </div>
       ) : (
+        
         <Popover asChild>
+        <div className="flex items-center">
+          <Theme />
           <PopoverTrigger>
             <CircleUserRound className="p-2 text-green-800 h-12 w-12" />
           </PopoverTrigger>
-          <PopoverContent className="w-44">
-            <ul className="flex flex-col gap-2">
-              <Link
-                href={"/profile"}
-                className="cursor-pointer p-2 hover:bg-slate-100 rounded-md"
-              >
-                Profile
-              </Link>
-              <Link
-                href={"/my-booking"}
-                className="cursor-pointer p-2 hover:bg-slate-100 rounded-md"
-              >
-                My Booking
-              </Link>
-              <li
-                onClick={() => onSignOut()}
-                className="cursor-pointer p-2 hover:bg-slate-100 rounded-md"
-              >
-                Logout
-              </li>
-            </ul>
-          </PopoverContent>
-        </Popover>
+        </div>
+        <PopoverContent className="w-44">
+          <ul className="flex flex-col gap-2">
+            <Link
+              href={"/profile"}
+              className="cursor-pointer p-2 hover:bg-slate-100 rounded-md"
+            >
+              Profile
+            </Link>
+            <Link
+              href={"/my-booking"}
+              className="cursor-pointer p-2 hover:bg-slate-100 rounded-md"
+            >
+              My Booking
+            </Link>
+            <li
+              onClick={() => onSignOut()}
+              className="cursor-pointer p-2 hover:bg-slate-100 rounded-md"
+            >
+              Logout
+            </li>
+          </ul>
+        </PopoverContent>
+      </Popover>
+      
       )}
     </div>
   );
 }
 
 export default Header;
-

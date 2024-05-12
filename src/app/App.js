@@ -5,7 +5,7 @@ import Header from "./_components/Header";
 import BackgroundAnimation from "./_components/BackgroundAnimation";
 import Footer from "./_components/Footer";
 import { Toaster } from ".//components/ui/sonner"
-import { AuthContext } from ".//context/AuthContext";
+import { AuthContext } from "./contexts/AuthContext";
 
 
 export default function App({children}) {
